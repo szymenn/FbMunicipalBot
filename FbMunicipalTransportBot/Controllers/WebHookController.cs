@@ -54,7 +54,6 @@ namespace FbMunicipalTransportBot.Controllers
                     return Ok("EVENT_RECEIVED");
                 }
             }
-            
 
             return BadRequest();
         }

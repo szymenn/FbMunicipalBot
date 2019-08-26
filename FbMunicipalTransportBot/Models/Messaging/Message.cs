@@ -1,4 +1,4 @@
-namespace FbMunicipalTransportBot.Models
+namespace FbMunicipalTransportBot.Models.Messaging
 {
     public class Message
     {
