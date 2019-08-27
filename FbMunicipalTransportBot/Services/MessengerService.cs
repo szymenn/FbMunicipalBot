@@ -69,7 +69,7 @@ namespace FbMunicipalTransportBot.Services
                 var webHookEvent = entry.Messaging[0];
                 if (webHookEvent.Message != null && webHookEvent.Sender != null)
                 {
-                    await _messengerClient.CallSendApi(webHookEvent.Sender.Id, "OSTRA SRAKA");
+                    await _messengerClient.CallSendApi(webHookEvent.Sender.Id, "hehe odpowiadam");
                 }
                 if (webHookEvent.Postback != null)
                 {
