@@ -47,9 +47,9 @@ namespace FbMunicipalTransportBot
             }
             else
             {
-                app.UseCustomExceptionHandler();
                 app.UseHsts();
             }
+            app.UseCustomExceptionHandler();
 
             app.UseMvc();
         }

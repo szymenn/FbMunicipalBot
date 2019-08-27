@@ -40,7 +40,7 @@ namespace FbMunicipalTransportBot.Services
                     Text = response
                 }
             };
-            var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(responseObj));
+            var stringPayload = JsonConvert.SerializeObject(responseObj);
             var content = new StringContent(stringPayload, Encoding.UTF8, "application/json");
             var result = await _httpClient.PostAsync(
                 $"https://graph.facebook.com/v2.6/me/messages?access_token=" +
@@ -51,7 +51,7 @@ namespace FbMunicipalTransportBot.Services
             }
             else
             {
-                _logger.LogInformation("SPIERDALAJ");
+                _logger.LogInformation("MESSAGE NOT SENT");
             }
         } 
     }

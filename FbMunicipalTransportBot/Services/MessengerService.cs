@@ -77,7 +77,6 @@ namespace FbMunicipalTransportBot.Services
                 }
                 
             }
-            throw new MessengerException("Unable to send message");
             
         }
     }
