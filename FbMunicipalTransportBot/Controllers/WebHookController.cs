@@ -1,64 +1,43 @@
-using System.IO;
-using FbMunicipalTransportBot.Models;
+using System;
+using System.Threading.Tasks;
+using FbMunicipalTransportBot.Helpers;
+using FbMunicipalTransportBot.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace FbMunicipalTransportBot.Controllers
 {
     [Route("webhook")]
+    [ApiController]
     public class WebHookController : ControllerBase
     {
-        private readonly ILogger<WebHookController> _logger;
+        private readonly IMessengerService _messengerService;
 
-        public WebHookController(ILogger<WebHookController> logger)
+        public WebHookController(IMessengerService messengerService)
         {
-            _logger = logger;
+            _messengerService = messengerService;
         }
-        
-        
+
+
         [HttpGet]
         public IActionResult Verify(
-            [FromQuery(Name = "hub.mode")] string mode,
-            [FromQuery(Name = "hub.challenge")] string challenge,
-            [FromQuery(Name = "hub.verify_token")] string token)
+            [FromQuery(Name = Constants.QueryMode)]
+            string mode,
+            [FromQuery(Name = Constants.QueryChallenge)]
+            string challenge,
+            [FromQuery(Name = Constants.QueryVerifyToken)]
+            string token)
         {
-            if (mode != null && token != null)
-            {
-                if (mode == "subscribe" && token == "heh")
-                {
-                    _logger.LogInformation("WEBHOOK_VERIFIED");
-                    return Ok(challenge);
-                }
-            }
-
-            return StatusCode(403);
+            _messengerService.VerifyToken(token, mode);
+            return Ok(challenge);
         }
 
 
         [HttpPost]
-        public IActionResult Receive()
+        public async Task<IActionResult> Receive()
         {
-            using (var reader = new StreamReader(Request.Body))
-            {
-                var body = reader.ReadToEnd();
-                var requestObject = JsonConvert.DeserializeObject<WebHookRequest>(body);
-                if (requestObject.Object == "page")
-                {
-                    foreach (var entry in requestObject.Entry)
-                    {
-                        var webHookEvent = entry.Messaging[0];
-                        _logger.LogInformation($"event message: {webHookEvent.Message.Text} ");
-                    }
-
-                    return Ok("EVENT_RECEIVED");
-                }
-            }
-
-            return BadRequest();
+            await _messengerService.Receive(Request);
+            return Ok();
         }
 
-        
-        
     }
 }
