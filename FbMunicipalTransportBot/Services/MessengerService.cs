@@ -34,8 +34,10 @@ namespace FbMunicipalTransportBot.Services
             {
                 await CallSendApi(webHookRequest);
             }
-            
-            throw new MessengerException("Object is not equal to page");
+            else
+            {
+                throw new MessengerException("Object is not equal to page");
+            }
         }
 
         public void VerifyToken(string token, string mode)
