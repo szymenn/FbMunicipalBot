@@ -1,8 +1,11 @@
+using Newtonsoft.Json;
+
 namespace FbMunicipalTransportBot.Models.Messaging
 {
+    [JsonObject("message")]
     public class Message
     {
-        public string Mid { get; set; }
+        [JsonProperty("text")]
         public string Text { get; set; }
     }
 }
