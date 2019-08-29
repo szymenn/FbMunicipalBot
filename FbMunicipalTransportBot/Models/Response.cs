@@ -8,6 +8,6 @@ namespace FbMunicipalTransportBot.Models
         [JsonProperty("recipient")]
         public Recipient Recipient;
         [JsonProperty("message")]
-        public Message Message;
+        public MessageResponse Message;
     }
 }

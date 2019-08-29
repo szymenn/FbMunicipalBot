@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace FbMunicipalTransportBot.Models.Messaging
@@ -7,5 +8,7 @@ namespace FbMunicipalTransportBot.Models.Messaging
     {
         [JsonProperty("text")]
         public string Text { get; set; }
+        [JsonProperty("attachments")]
+        public List<Attachment> Attachments { get; set; }
     }
 }

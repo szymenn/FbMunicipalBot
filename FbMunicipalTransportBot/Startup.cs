@@ -32,8 +32,10 @@ namespace FbMunicipalTransportBot
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
             services.Configure<FacebookSettings>(Configuration.GetSection(Constants.FacebookSettings));
+            services.Configure<ZomatoSettings>(Configuration.GetSection(Constants.ZomatoSettings));
 
             services.AddHttpClient<IMessengerClient, MessengerClient>();
+            services.AddHttpClient<IZomatoApiClient, ZomatoApiClient>();
             services.AddScoped<IMessengerService, MessengerService>();
 
         }

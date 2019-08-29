@@ -1,8 +1,9 @@
+using FbMunicipalTransportBot.Helpers;
 using Newtonsoft.Json;
 
 namespace FbMunicipalTransportBot.Configuration
 {
-    [JsonObject("FacebookSettings")]
+    [JsonObject(Constants.FacebookSettings)]
     public class FacebookSettings
     {
         [JsonProperty("Secret")]

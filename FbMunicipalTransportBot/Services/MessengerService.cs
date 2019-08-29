@@ -17,13 +17,16 @@ namespace FbMunicipalTransportBot.Services
         private readonly FacebookSettings _fbSettings;
         private readonly IMessengerClient _messengerClient;
         private readonly ILogger<MessengerService> _logger;
+        private IZomatoApiClient _zomatoClient;
 
         public MessengerService(IOptions<FacebookSettings> fbSettings, 
-            IMessengerClient messengerClient, 
+            IMessengerClient messengerClient,
+            IZomatoApiClient zomatoClient,
             ILogger<MessengerService> logger)
         {
             _fbSettings = fbSettings.Value;
             _messengerClient = messengerClient;
+            _zomatoClient = zomatoClient;
             _logger = logger;
         }
 
@@ -71,7 +74,24 @@ namespace FbMunicipalTransportBot.Services
                 var webHookEvent = entry.Messaging[0];
                 if (webHookEvent.Message != null && webHookEvent.Sender != null)
                 {
-                    await _messengerClient.CallSendApi(webHookEvent.Sender.Id, "hehe odpowiadam");
+                    if (webHookEvent.Message.Text != null)
+                    {
+                        await _messengerClient.CallSendApi(webHookEvent.Sender.Id, "hehe odpowiadam");
+                    }
+                    else if (webHookEvent.Message.Attachments != null)
+                    {
+                        var attachment = webHookEvent.Message.Attachments[0];
+                        if (attachment.Type == "location")
+                        {
+                            await _messengerClient.CallSendApi
+                            (webHookEvent.Sender.Id,
+                                $"Your coordinates: lat: {attachment.Payload.Coordinates.Latitude} long: {attachment.Payload.Coordinates.Longitude}");
+                            var restaurants = await _zomatoClient.CallZomatoApi
+                            (attachment.Payload.Coordinates.Latitude,
+                                attachment.Payload.Coordinates.Longitude);
+                            _logger.LogInformation("OK");
+                        }
+                    }
                 }
                 if (webHookEvent.Postback != null)
                 {

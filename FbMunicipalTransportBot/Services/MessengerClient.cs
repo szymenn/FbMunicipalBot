@@ -35,7 +35,7 @@ namespace FbMunicipalTransportBot.Services
                 {
                     Id = senderId
                 },
-                Message = new Message
+                Message = new MessageResponse
                 {
                     Text = response
                 }
