@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace FbRestaurantsBot.Services
             _logger = logger;
         }
 
-        public async Task<RestaurantsNearby> CallZomatoApi(double latitude, double longitude)
+        public async Task<Nearby> CallZomatoApi(double latitude, double longitude)
         {
             _httpClient.DefaultRequestHeaders.Add("user-key", _zomatoSettings.ApiKey);
             var latString = latitude.ToString("0.0000", CultureInfo.InvariantCulture);
@@ -43,12 +44,8 @@ namespace FbRestaurantsBot.Services
                 throw new Exception("Api call failed");
             }
 
-            var restaurantsJsonString = await response.Content.ReadAsStringAsync();
-            var restaurants = JsonConvert.DeserializeObject<RestaurantsNearby>(restaurantsJsonString);
-            
-            _logger.LogInformation("something has happpend");
-
-            return null;
+            var nearby = await response.Content.ReadAsAsync<Nearby>();
+            return nearby;
         }
             
     } 

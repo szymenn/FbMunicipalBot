@@ -5,6 +5,6 @@ namespace FbRestaurantsBot.Services
 {
     public interface IZomatoApiClient
     {
-        Task<RestaurantsNearby> CallZomatoApi(double latitude, double longitude);
+        Task<Nearby> CallZomatoApi(double latitude, double longitude);
     }
 }
