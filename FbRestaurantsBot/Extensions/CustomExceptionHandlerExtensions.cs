@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 
-namespace FbMunicipalTransportBot.Extensions
+namespace FbRestaurantsBot.Extensions
 {
     public static class CustomExceptionHandlerExtensions
     {

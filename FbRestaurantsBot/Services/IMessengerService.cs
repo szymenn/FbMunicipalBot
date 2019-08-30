@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace FbMunicipalTransportBot.Services
+namespace FbRestaurantsBot.Services
 {
     public interface IMessengerService
     {

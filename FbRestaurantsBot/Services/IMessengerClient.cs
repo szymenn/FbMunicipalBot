@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
-using FbMunicipalTransportBot.Models.Messaging;
 
-namespace FbMunicipalTransportBot.Services
+namespace FbRestaurantsBot.Services
 {
     public interface IMessengerClient
     {

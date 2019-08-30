@@ -1,7 +1,7 @@
 
 using System.Collections.Generic;
 
-namespace FbMunicipalTransportBot.Models
+namespace FbRestaurantsBot.Models.Messaging
 {
     public class WebHookRequest
     {

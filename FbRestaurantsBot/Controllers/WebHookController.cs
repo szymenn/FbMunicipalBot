@@ -1,10 +1,9 @@
-using System;
 using System.Threading.Tasks;
-using FbMunicipalTransportBot.Helpers;
-using FbMunicipalTransportBot.Services;
+using FbRestaurantsBot.Helpers;
+using FbRestaurantsBot.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FbMunicipalTransportBot.Controllers
+namespace FbRestaurantsBot.Controllers
 {
     [Route("webhook")]
     [ApiController]

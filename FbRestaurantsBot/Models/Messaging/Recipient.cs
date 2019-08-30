@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace FbMunicipalTransportBot.Models.Messaging
+namespace FbRestaurantsBot.Models.Messaging
 {
     [JsonObject("recipient")]
     public class Recipient

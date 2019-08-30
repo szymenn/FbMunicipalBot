@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using FbMunicipalTransportBot.Models.Restaurants;
+using FbRestaurantsBot.Models.Restaurants;
 
-namespace FbMunicipalTransportBot.Services
+namespace FbRestaurantsBot.Services
 {
     public interface IZomatoApiClient
     {

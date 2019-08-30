@@ -1,6 +1,4 @@
-using System;
-
-namespace FbMunicipalTransportBot.Models.Messaging
+namespace FbRestaurantsBot.Models.Messaging
 {
     public class Messaging
     {

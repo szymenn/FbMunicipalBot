@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace FbMunicipalTransportBot.Models.Restaurants
+namespace FbRestaurantsBot.Models.Restaurants
 {
     [JsonObject("nearby_restaurants")]
     public class RestaurantsNearby

@@ -1,4 +1,4 @@
-namespace FbMunicipalTransportBot.Helpers
+namespace FbRestaurantsBot.Helpers
 {
     public static class Constants
     {

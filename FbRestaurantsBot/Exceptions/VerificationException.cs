@@ -1,8 +1,8 @@
 using System;
-using FbMunicipalTransportBot.Helpers;
+using FbRestaurantsBot.Helpers;
 using Microsoft.AspNetCore.Http;
 
-namespace FbMunicipalTransportBot.Exceptions
+namespace FbRestaurantsBot.Exceptions
 {
     public class VerificationException : Exception
     {

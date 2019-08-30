@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace FbMunicipalTransportBot.Models.Restaurants
+namespace FbRestaurantsBot.Models.Restaurants
 {
     public class Location
     {

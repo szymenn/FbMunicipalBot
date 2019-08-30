@@ -1,15 +1,13 @@
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using FbMunicipalTransportBot.Configuration;
-using FbMunicipalTransportBot.Models;
-using FbMunicipalTransportBot.Models.Messaging;
+using FbRestaurantsBot.Configuration;
+using FbRestaurantsBot.Models.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
-namespace FbMunicipalTransportBot.Services
+namespace FbRestaurantsBot.Services
 {
     public class MessengerClient : IMessengerClient
     {

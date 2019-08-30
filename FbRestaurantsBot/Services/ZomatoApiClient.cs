@@ -1,21 +1,20 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FbMunicipalTransportBot.Configuration;
-using FbMunicipalTransportBot.Models.Restaurants;
+using FbRestaurantsBot.Configuration;
+using FbRestaurantsBot.Models.Restaurants;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
-namespace FbMunicipalTransportBot.Services
+namespace FbRestaurantsBot.Services
 {
     public class ZomatoApiClient : IZomatoApiClient
     {
         private readonly HttpClient _httpClient;
         private readonly ZomatoSettings _zomatoSettings;
-        private ILogger<ZomatoApiClient> _logger;
+        private readonly ILogger<ZomatoApiClient> _logger;
 
         public ZomatoApiClient
         (

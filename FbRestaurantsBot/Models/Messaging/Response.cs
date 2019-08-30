@@ -1,7 +1,6 @@
-using FbMunicipalTransportBot.Models.Messaging;
 using Newtonsoft.Json;
 
-namespace FbMunicipalTransportBot.Models
+namespace FbRestaurantsBot.Models.Messaging
 {
     public class Response
     {

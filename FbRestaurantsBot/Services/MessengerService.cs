@@ -1,16 +1,16 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using FbMunicipalTransportBot.Configuration;
-using FbMunicipalTransportBot.Exceptions;
-using FbMunicipalTransportBot.Models;
+using FbRestaurantsBot.Configuration;
+using FbRestaurantsBot.Exceptions;
+using FbRestaurantsBot.Models.Messaging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using VerificationException = System.Security.VerificationException;
 
-namespace FbMunicipalTransportBot.Services
+namespace FbRestaurantsBot.Services
 {
     public class MessengerService : IMessengerService
     {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 
-namespace FbMunicipalTransportBot.Extensions
+namespace FbRestaurantsBot.Extensions
 {
     public static class HttpResponseExtensions
     {

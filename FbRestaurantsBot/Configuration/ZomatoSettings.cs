@@ -1,7 +1,7 @@
-using FbMunicipalTransportBot.Helpers;
+using FbRestaurantsBot.Helpers;
 using Newtonsoft.Json;
 
-namespace FbMunicipalTransportBot.Configuration
+namespace FbRestaurantsBot.Configuration
 {
     [JsonObject(Constants.ZomatoSettings)]
     public class ZomatoSettings

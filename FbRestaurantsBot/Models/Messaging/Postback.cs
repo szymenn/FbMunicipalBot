@@ -1,4 +1,4 @@
-namespace FbMunicipalTransportBot.Models
+namespace FbRestaurantsBot.Models.Messaging
 {
     public class Postback
     {

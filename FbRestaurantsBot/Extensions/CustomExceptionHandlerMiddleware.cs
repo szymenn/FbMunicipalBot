@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using FbMunicipalTransportBot.Exceptions;
-using FbMunicipalTransportBot.Helpers;
+using FbRestaurantsBot.Exceptions;
+using FbRestaurantsBot.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FbMunicipalTransportBot.Extensions
+namespace FbRestaurantsBot.Extensions
 {
     public class CustomExceptionHandlerMiddleware
     {
