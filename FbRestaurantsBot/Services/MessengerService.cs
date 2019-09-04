@@ -112,17 +112,5 @@ namespace FbRestaurantsBot.Services
                                               "\n" + next.Restaurant.Url + "\n\n"));
         }
         
-        private async Task ReceiveMessage(Entry entry)
-        {
-            
-        }
-
-        private async Task<Nearby> CallZomatoApi(Attachment attachment)
-        {
-            return await _zomatoClient.CallZomatoApi
-            (attachment.Payload.Coordinates.Latitude,
-                attachment.Payload.Coordinates.Longitude);
-        }
-        
     }
 }
