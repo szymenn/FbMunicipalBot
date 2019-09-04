@@ -2,7 +2,7 @@
 # FbRestaurantsBot
 Facebook Messenger chat bot I made. Bot is using [Zomato API](https://developers.zomato.com/api) to get restaurants data.
 ## Features
-Getting nearby restaurants data based on given location
+Getting nearby restaurants data based on a given location
 ## Used technologies
 - C# 7.3
 - ASP.NET Core 2.2
