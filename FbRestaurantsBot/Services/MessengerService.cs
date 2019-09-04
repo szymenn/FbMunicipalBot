@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using FbRestaurantsBot.Configuration;
 using FbRestaurantsBot.Exceptions;
 using FbRestaurantsBot.Models.Messaging;
+using FbRestaurantsBot.Models.Restaurants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -83,13 +86,14 @@ namespace FbRestaurantsBot.Services
                         var attachment = webHookEvent.Message.Attachments[0];
                         if (attachment.Type == "location")
                         {
-                            await _messengerClient.CallSendApi
-                            (webHookEvent.Sender.Id,
-                                $"Your coordinates: lat: {attachment.Payload.Coordinates.Latitude} long: {attachment.Payload.Coordinates.Longitude}");
-                            var restaurants = await _zomatoClient.CallZomatoApi
+                            var nearby= await _zomatoClient.CallZomatoApi
                             (attachment.Payload.Coordinates.Latitude,
                                 attachment.Payload.Coordinates.Longitude);
                             _logger.LogInformation("OK");
+
+
+                            await _messengerClient.CallSendApi(webHookEvent.Sender.Id,
+                                GetRestaurantsString(nearby.Restaurants));
                         }
                     }
                 }
@@ -99,7 +103,26 @@ namespace FbRestaurantsBot.Services
                 }
                 
             }
+        }
+
+        private string GetRestaurantsString(ICollection<RestaurantWrapper> restaurants)
+        {
+            return restaurants.Aggregate("",
+                (current, next) => current + (next.Restaurant.Name + "\n" + next.Restaurant.Location.Address +
+                                              "\n" + next.Restaurant.Url + "\n\n"));
+        }
+        
+        private async Task ReceiveMessage(Entry entry)
+        {
             
         }
+
+        private async Task<Nearby> CallZomatoApi(Attachment attachment)
+        {
+            return await _zomatoClient.CallZomatoApi
+            (attachment.Payload.Coordinates.Latitude,
+                attachment.Payload.Coordinates.Longitude);
+        }
+        
     }
 }
