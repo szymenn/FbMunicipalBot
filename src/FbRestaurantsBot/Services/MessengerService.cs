@@ -112,10 +112,6 @@ namespace FbRestaurantsBot.Services
                                               "\n" + next.Restaurant.Url + "\n\n"));
         }
         
-        private async Task ReceiveMessage(Entry entry)
-        {
-            
-        }
 
         private async Task<Nearby> CallZomatoApi(Attachment attachment)
         {
