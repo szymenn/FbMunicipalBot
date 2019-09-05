@@ -6,7 +6,7 @@ Facebook Messenger chat bot I made. Bot is using [Zomato API](https://developers
 ## Features 
 Getting nearby restaurants data based on a given location.
 ## Used technologies
-### CI tools
+### CI, code analysis tools
 - Azure DevOps
 - SonarCloud
 ### App
