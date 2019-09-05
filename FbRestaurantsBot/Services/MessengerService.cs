@@ -20,7 +20,7 @@ namespace FbRestaurantsBot.Services
         private readonly FacebookSettings _fbSettings;
         private readonly IMessengerClient _messengerClient;
         private readonly ILogger<MessengerService> _logger;
-        private IZomatoApiClient _zomatoClient;
+        private readonly IZomatoApiClient _zomatoClient;
 
         public MessengerService(IOptions<FacebookSettings> fbSettings, 
             IMessengerClient messengerClient,
@@ -74,38 +74,66 @@ namespace FbRestaurantsBot.Services
         {
             foreach (var entry in webHookRequest.Entry)
             {
-                var webHookEvent = entry.Messaging[0];
-                if (webHookEvent.Message != null && webHookEvent.Sender != null)
-                {
-                    if (webHookEvent.Message.Text != null)
-                    {
-                        await _messengerClient.CallSendApi(webHookEvent.Sender.Id, "hehe odpowiadam");
-                    }
-                    else if (webHookEvent.Message.Attachments != null)
-                    {
-                        var attachment = webHookEvent.Message.Attachments[0];
-                        if (attachment.Type == "location")
-                        {
-                            var nearby= await _zomatoClient.CallZomatoApi
-                            (attachment.Payload.Coordinates.Latitude,
-                                attachment.Payload.Coordinates.Longitude);
-                            _logger.LogInformation("OK");
-
-
-                            await _messengerClient.CallSendApi(webHookEvent.Sender.Id,
-                                GetRestaurantsString(nearby.Restaurants));
-                        }
-                    }
-                }
-                if (webHookEvent.Postback != null)
-                {
-                    throw new NotImplementedException();
-                }
-                
+                await HandleEntry(entry.Messaging);
             }
         }
 
-        private string GetRestaurantsString(ICollection<RestaurantWrapper> restaurants)
+        private async Task HandleEntry(IEnumerable<Messaging> messaging)
+        {
+            foreach (var webHookEvent in messaging)
+            {
+                await HandleWebHookEvent(webHookEvent);
+            }
+        }
+
+        private async Task HandleWebHookEvent(Messaging webHookEvent)
+        {
+            if (webHookEvent.Message != null && webHookEvent.Sender != null)
+            {
+                await HandleTextMessage(webHookEvent.Message.Text, webHookEvent.Sender.Id);
+                await HandleAttachmentsMessage(webHookEvent.Message.Attachments, webHookEvent.Sender.Id);
+            }
+
+            if (webHookEvent.Postback != null)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        private async Task HandleTextMessage(string text, string senderId)
+        {
+            if (text != null)
+            {
+                await _messengerClient.CallSendApi(senderId,
+                    "Please send your location in order to get nearby restaurants data");
+            }
+        }
+
+        private async Task HandleAttachmentsMessage(IEnumerable<Attachment> attachments, string senderId)
+        {
+            if (attachments != null)
+            {
+                foreach (var attachment in attachments)
+                {
+                    if (attachment.Type == "location")
+                    {
+                        await HandleLocationMessage(attachment, senderId);
+                    }
+                }
+            }
+        }
+
+        private async Task HandleLocationMessage(Attachment attachment, string senderId)
+        {
+            var nearby = await _zomatoClient.CallZomatoApi
+            (attachment.Payload.Coordinates.Latitude,
+                attachment.Payload.Coordinates.Longitude);
+
+            await _messengerClient.CallSendApi(senderId,
+                GetRestaurantsString(nearby.Restaurants));
+        }
+        
+        private string GetRestaurantsString(IEnumerable<RestaurantWrapper> restaurants)
         {
             return restaurants.Aggregate("",
                 (current, next) => current + (next.Restaurant.Name + "\n" + next.Restaurant.Location.Address +

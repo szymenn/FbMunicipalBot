@@ -10,5 +10,6 @@ namespace FbRestaurantsBot.Helpers
         public const string Forbidden = "Forbidden";
         public const string InternalServerError = "Internal Server Error";
         public const string BadRequest = "Bad Request";
+        public const string FacebookApiBaseUrl = "https://graph.facebook.com/v2.6/me/messages?access_token=";
     }
 }

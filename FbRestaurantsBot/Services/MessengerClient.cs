@@ -2,6 +2,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using FbRestaurantsBot.Configuration;
+using FbRestaurantsBot.Exceptions;
+using FbRestaurantsBot.Helpers;
 using FbRestaurantsBot.Models.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -41,15 +43,11 @@ namespace FbRestaurantsBot.Services
             var stringPayload = JsonConvert.SerializeObject(responseObj);
             var content = new StringContent(stringPayload, Encoding.UTF8, "application/json");
             var result = await _httpClient.PostAsync(
-                $"https://graph.facebook.com/v2.6/me/messages?access_token=" +
+                Constants.FacebookApiBaseUrl +
                 $"{_fbSettings.Secret}", content);
-            if(result.IsSuccessStatusCode)
+            if (!result.IsSuccessStatusCode)
             {
-                _logger.LogInformation("MESSAGE SENT");   
-            }
-            else
-            {
-                _logger.LogInformation("MESSAGE NOT SENT");
+                throw new MessengerException("Unable to send message");
             }
         } 
     }

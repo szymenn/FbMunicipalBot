@@ -6,6 +6,6 @@ namespace FbRestaurantsBot.Models.Messaging
     public class WebHookRequest
     {
         public string Object { get; set; }
-        public ICollection<Entry> Entry { get; set; }
+        public IEnumerable<Entry> Entry { get; set; }
     }
 }

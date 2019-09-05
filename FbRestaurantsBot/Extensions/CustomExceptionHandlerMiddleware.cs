@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using FbRestaurantsBot.Exceptions;
 using FbRestaurantsBot.Helpers;
+using FbRestaurantsBot.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,12 @@ namespace FbRestaurantsBot.Extensions
     public class CustomExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
+        private IMessengerClient _messengerClient;
 
-        public CustomExceptionHandlerMiddleware(RequestDelegate next)
+        public CustomExceptionHandlerMiddleware(RequestDelegate next, IMessengerClient messengerClient)
         {
             _next = next;
+            _messengerClient = messengerClient;
         }
 
         public async Task Invoke(HttpContext context)
