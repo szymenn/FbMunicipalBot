@@ -8,14 +8,6 @@ trigger:
 
 
 
-
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SonarCloudConnection'
-    organization: 'szymenn'
-    scannerMode: 'MSBuild'
-    projectKey: 'FbRestaurantsBot'
-
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -23,6 +15,13 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloudConnection'
+    organization: 'szymenn'
+    scannerMode: 'MSBuild'
+    projectKey: 'FbRestaurantsBot'
+    
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 - task: SonarCloudAnalyze@1
