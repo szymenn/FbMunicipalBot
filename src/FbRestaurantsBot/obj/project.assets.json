@@ -8567,11 +8567,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\RiderProjects\\FbRestaurantsBot\\FbRestaurantsBot\\FbRestaurantsBot.csproj",
+      "projectUniqueName": "C:\\Users\\User\\RiderProjects\\FbRestaurantsBot\\src\\FbRestaurantsBot\\FbRestaurantsBot.csproj",
       "projectName": "FbRestaurantsBot",
-      "projectPath": "C:\\Users\\User\\RiderProjects\\FbRestaurantsBot\\FbRestaurantsBot\\FbRestaurantsBot.csproj",
+      "projectPath": "C:\\Users\\User\\RiderProjects\\FbRestaurantsBot\\src\\FbRestaurantsBot\\FbRestaurantsBot.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\RiderProjects\\FbRestaurantsBot\\FbRestaurantsBot\\obj\\",
+      "outputPath": "C:\\Users\\User\\RiderProjects\\FbRestaurantsBot\\src\\FbRestaurantsBot\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
