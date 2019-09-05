@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\User\.Rider2019.1\config\consoles\db" t="IncludeRecursive" />
+    <e p="C:\Users\User\.Rider2019.1\config\extensions" t="IncludeRecursive" />
+    <e p="C:\Users\User\.Rider2019.1\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\User\.Rider2019.1\system\resharper-host\local\Transient\ReSharperHost\v191\SolutionCaches\_FbMunicipalTransportBot.443999872.00" t="ExcludeRecursive" />
+    <e p="C:\Users\User\RiderProjects\FbMunicipalTransportBot" t="IncludeFlat">
+      <e p="FbMunicipalTransportBot" t="IncludeRecursive">
+        <e p="app.config" t="Include" />
+        <e p="appsettings.Development.json" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Configuration" t="Include">
+          <e p="FacebookSettings.cs" t="Include" />
+          <e p="ZomatoSettings.cs" t="Include" />
+        </e>
+        <e p="Controllers" t="Include">
+          <e p="TestController.cs" t="Include" />
+          <e p="WebHookController.cs" t="Include" />
+        </e>
+        <e p="Exceptions" t="Include">
+          <e p="MessengerException.cs" t="Include" />
+          <e p="VerificationException.cs" t="Include" />
+        </e>
+        <e p="extensions" t="Include">
+          <e p="CustomExceptionHandlerExtensions.cs" t="Include" />
+          <e p="CustomExceptionHandlerMiddleware.cs" t="Include" />
+          <e p="HttpResponseExtensions.cs" t="Include" />
+        </e>
+        <e p="FbMunicipalTransportBot.csproj" t="IncludeRecursive" />
+        <e p="Helpers" t="Include">
+          <e p="Constants.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="Entry.cs" t="Include" />
+          <e p="Messaging" t="Include">
+            <e p="Attachment.cs" t="Include" />
+            <e p="Coordinates.cs" t="Include" />
+            <e p="Message.cs" t="Include" />
+            <e p="MessageResponse.cs" t="Include" />
+            <e p="Messaging.cs" t="Include" />
+            <e p="Payload.cs" t="Include" />
+            <e p="Recipient.cs" t="Include" />
+            <e p="Sender.cs" t="Include" />
+          </e>
+          <e p="Postback.cs" t="Include" />
+          <e p="Response.cs" t="Include" />
+          <e p="Restaurants" t="Include">
+            <e p="Location.cs" t="Include" />
+            <e p="Restaurant.cs" t="Include" />
+            <e p="RestaurantsNearby.cs" t="Include" />
+          </e>
+          <e p="WebHookRequest.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.2" t="Include">
+              <e p="FbMunicipalTransportBot.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Services" t="Include">
+          <e p="IMessengerClient.cs" t="Include" />
+          <e p="IMessengerService.cs" t="Include" />
+          <e p="IZomatoApiClient.cs" t="Include" />
+          <e p="MessengerClient.cs" t="Include" />
+          <e p="MessengerService.cs" t="Include" />
+          <e p="ZomatoApiClient.cs" t="Include" />
+        </e>
+        <e p="Startup.cs" t="Include" />
+      </e>
+      <e p="FbMunicipalTransportBot.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
