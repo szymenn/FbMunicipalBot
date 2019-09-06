@@ -4,6 +4,6 @@ namespace FbRestaurantsBot.Services
 {
     public interface IMessengerClient
     {
-        Task CallSendApi(string senderId, string response);
+        Task CallSendApi(string senderId, string responseMessage);
     }
 }
