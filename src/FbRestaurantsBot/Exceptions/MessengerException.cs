@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 
 namespace FbRestaurantsBot.Exceptions
 {
-    [Serializable]
     public class MessengerException : Exception
     {
         public int StatusCode { get; }

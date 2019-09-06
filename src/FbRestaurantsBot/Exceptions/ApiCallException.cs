@@ -2,7 +2,6 @@ using System;
 
 namespace FbRestaurantsBot.Exceptions
 {
-    [Serializable]
     public class ApiCallException : Exception
     {
         public int StatusCode { get; }
