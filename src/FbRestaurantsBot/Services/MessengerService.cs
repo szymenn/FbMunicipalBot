@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using FbRestaurantsBot.Configuration;
 using FbRestaurantsBot.Exceptions;
@@ -94,10 +95,6 @@ namespace FbRestaurantsBot.Services
                 await HandleTextMessage(webHookEvent.Message.Text, webHookEvent.Sender.Id);
                 await HandleAttachmentsMessage(webHookEvent.Message.Attachments, webHookEvent.Sender.Id);
             }
-            if (webHookEvent.Postback != null)
-            {
-                throw new NotImplementedException();
-            }
         }
         
         private async Task HandleTextMessage(string text, string senderId)
@@ -114,15 +111,20 @@ namespace FbRestaurantsBot.Services
             {
                 foreach (var attachment in attachments)
                 {
-                    if (attachment.Type == "location")
-                    {
-                        await HandleLocation(attachment, senderId);
-                    }
-                    else if (attachment.Type != null)
-                    {
-                        await SendBasicResponse(senderId);
-                    }
+                    await HandleAttachment(attachment, senderId);
                 }
+            }
+        }
+
+        private async Task HandleAttachment(Attachment attachment, string senderId)
+        {
+            if (attachment.Type == "location")
+            {
+                await HandleLocation(attachment, senderId);
+            }
+            else if (attachment.Type != null)
+            {
+                await SendBasicResponse(senderId);
             }
         }
 
@@ -142,7 +144,7 @@ namespace FbRestaurantsBot.Services
                 GetRestaurantsString(nearby.Restaurants));
         }
 
-        private string GetRestaurantsString(ICollection<RestaurantWrapper> restaurants)
+        private string GetRestaurantsString(IEnumerable<RestaurantWrapper> restaurants)
         {
             return restaurants.Aggregate("",
                 (current, next) => current + (next.Restaurant.Name + "\n" + next.Restaurant.Location.Address +
