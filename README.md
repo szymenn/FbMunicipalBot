@@ -12,7 +12,9 @@ Getting nearby restaurants data based on a given location.
 ### App
 - C# 7.3
 - ASP.NET Core 2.2
+- xUnit
+- Moq
 ## Todo
-- Add unit and integration tests
+- Write more unit and add some integration tests
 ## Example request
 <img src="https://github.com/szymenn/FbRestaurantsBot/blob/master/screenshots/MessengerRestaurantsBot.jpg" />
