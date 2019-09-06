@@ -35,6 +35,14 @@ namespace FbRestaurantsBot.Extensions
                 context.Response.StatusCode = verificationException.StatusCode;
                 context.Response.WriteJson(problemDetails);
             }
+            catch (ApiCallException apiCallException)
+            {
+                problemDetails.Status = apiCallException.StatusCode;
+                problemDetails.Detail = apiCallException.Message;
+                problemDetails.Title = apiCallException.ReasonPhrase;
+                context.Response.StatusCode = apiCallException.StatusCode;
+                context.Response.WriteJson(problemDetails);
+            }
             catch (MessengerException messengerException)
             {
                 problemDetails.Status = messengerException.StatusCode;

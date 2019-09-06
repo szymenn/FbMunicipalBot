@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace FbRestaurantsBot.Exceptions
 {
+    [Serializable]
     public class VerificationException : Exception
     {
         public int StatusCode { get; }

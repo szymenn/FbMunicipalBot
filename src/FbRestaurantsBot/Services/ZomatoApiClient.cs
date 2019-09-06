@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FbRestaurantsBot.Configuration;
+using FbRestaurantsBot.Exceptions;
+using FbRestaurantsBot.Helpers;
 using FbRestaurantsBot.Models.Restaurants;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -32,16 +34,16 @@ namespace FbRestaurantsBot.Services
         public async Task<Nearby> CallZomatoApi(double latitude, double longitude)
         {
             _httpClient.DefaultRequestHeaders.Add("user-key", _zomatoSettings.ApiKey);
-            var latString = latitude.ToString("0.0000", CultureInfo.InvariantCulture);
-            var longString = longitude.ToString("0.0000", CultureInfo.InvariantCulture);
+            var latString = latitude.ToString(Constants.StringConversionFormat, CultureInfo.InvariantCulture);
+            var longString = longitude.ToString(Constants.StringConversionFormat, CultureInfo.InvariantCulture);
             var response =
                 await _httpClient.GetAsync(
-                    $"https://developers.zomato.com/api/v2.1/geocode?lat={latString}&lon={longString}");
-
+                    $"geocode?lat={latString}&lon={longString}");
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Api call failed");
+                throw new ApiCallException(Constants.ApiCallExceptionMessage, (int) response.StatusCode,
+                    response.ReasonPhrase);
             }
 
             var nearby = await response.Content.ReadAsAsync<Nearby>();

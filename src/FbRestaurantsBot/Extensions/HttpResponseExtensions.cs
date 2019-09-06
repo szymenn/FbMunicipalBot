@@ -1,4 +1,5 @@
 using System.Text;
+using FbRestaurantsBot.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
@@ -14,7 +15,7 @@ namespace FbRestaurantsBot.Extensions
 
         public static void WriteJson<T>(this HttpResponse response, T obj, string contentType = null)
         {
-            response.ContentType = contentType ?? "application/json";
+            response.ContentType = contentType ?? Constants.ApplicationJson;
             using (var writer = new HttpResponseStreamWriter(response.Body, Encoding.UTF8))
             {
                 using (var jsonWriter = new JsonTextWriter(writer))

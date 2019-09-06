@@ -2,6 +2,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using FbRestaurantsBot.Configuration;
+using FbRestaurantsBot.Exceptions;
+using FbRestaurantsBot.Helpers;
 using FbRestaurantsBot.Models.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -13,19 +15,15 @@ namespace FbRestaurantsBot.Services
     {
         private readonly HttpClient _httpClient;
         private readonly FacebookSettings _fbSettings;
-        private readonly ILogger<MessengerClient> _logger;
 
         public MessengerClient(HttpClient httpClient, 
-            IOptions<FacebookSettings> fbSettings, 
-            ILogger<MessengerClient> logger)
+            IOptions<FacebookSettings> fbSettings)
         {
             _httpClient = httpClient;
             _fbSettings = fbSettings.Value;
-            _logger = logger;
         }
 
-
-        public async Task CallSendApi(string senderId, string response)
+        public async Task CallSendApi(string senderId, string responseMessage)
         {
             var responseObj = new Response
             {
@@ -35,21 +33,18 @@ namespace FbRestaurantsBot.Services
                 },
                 Message = new MessageResponse
                 {
-                    Text = response
+                    Text = responseMessage
                 }
             };
             var stringPayload = JsonConvert.SerializeObject(responseObj);
-            var content = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsync(
-                $"https://graph.facebook.com/v2.6/me/messages?access_token=" +
+            var content = new StringContent(stringPayload, Encoding.UTF8, Constants.ApplicationJson);
+            var response = await _httpClient.PostAsync(
+                "?access_token=" +
                 $"{_fbSettings.Secret}", content);
-            if(result.IsSuccessStatusCode)
+            if(!response.IsSuccessStatusCode)
             {
-                _logger.LogInformation("MESSAGE SENT");   
-            }
-            else
-            {
-                _logger.LogInformation("MESSAGE NOT SENT");
+                throw new ApiCallException(Constants.ApiCallExceptionMessage, (int) response.StatusCode,
+                    response.ReasonPhrase);
             }
         } 
     }

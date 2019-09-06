@@ -1,4 +1,5 @@
-﻿using FbRestaurantsBot.Configuration;
+﻿using System;
+using FbRestaurantsBot.Configuration;
 using FbRestaurantsBot.Extensions;
 using FbRestaurantsBot.Helpers;
 using FbRestaurantsBot.Services;
@@ -19,7 +20,6 @@ namespace FbRestaurantsBot
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -27,13 +27,19 @@ namespace FbRestaurantsBot
             services.Configure<FacebookSettings>(Configuration.GetSection(Constants.FacebookSettings));
             services.Configure<ZomatoSettings>(Configuration.GetSection(Constants.ZomatoSettings));
 
-            services.AddHttpClient<IMessengerClient, MessengerClient>();
-            services.AddHttpClient<IZomatoApiClient, ZomatoApiClient>();
+            services.AddHttpClient<IMessengerClient, MessengerClient>(config =>
+            {
+                config.BaseAddress = new Uri("https://graph.facebook.com/v2.6/me/messages");
+            });
+            services.AddHttpClient<IZomatoApiClient, ZomatoApiClient>(config =>
+            {
+                config.BaseAddress = new Uri("https://developers.zomato.com/api/v2.1/");
+            });
+            
             services.AddScoped<IMessengerService, MessengerService>();
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
