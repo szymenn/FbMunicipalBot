@@ -6,6 +6,7 @@ using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using FbRestaurantsBot.Configuration;
 using FbRestaurantsBot.Exceptions;
+using FbRestaurantsBot.Helpers;
 using FbRestaurantsBot.Models.Messaging;
 using FbRestaurantsBot.Models.Restaurants;
 using Microsoft.AspNetCore.Http;
@@ -20,12 +21,12 @@ namespace FbRestaurantsBot.Services
     {
         private readonly FacebookSettings _fbSettings;
         private readonly IMessengerClient _messengerClient;
-        private readonly ILogger<MessengerService> _logger;
         private readonly IZomatoApiClient _zomatoClient;
+        private readonly ILogger<MessengerService> _logger;
 
         public MessengerService(IOptions<FacebookSettings> fbSettings, 
             IMessengerClient messengerClient,
-            IZomatoApiClient zomatoClient,
+            IZomatoApiClient zomatoClient, 
             ILogger<MessengerService> logger)
         {
             _fbSettings = fbSettings.Value;
@@ -43,22 +44,22 @@ namespace FbRestaurantsBot.Services
             }
             else
             {
-                throw new MessengerException("Object is not equal to page");
+                throw new MessengerException(Constants.ObjectNotEqualPage);
             }
         }
 
         public void VerifyToken(string token, string mode)
-        {
+        { 
             if (mode != null && token != null)
             {
                 if (token == _fbSettings.VerifyToken && mode == _fbSettings.Mode)
                 {
-                    _logger.LogInformation("WEBHOOK VERIFIED");
+                    _logger.LogInformation(Constants.WebHookVerified);
                 }
             }
             else
             {
-                throw new VerificationException("Unable to verify");
+                throw new VerificationException(Constants.VerificationExceptionMessage);
             }
         }
 
@@ -118,7 +119,7 @@ namespace FbRestaurantsBot.Services
 
         private async Task HandleAttachment(Attachment attachment, string senderId)
         {
-            if (attachment.Type == "location")
+            if (attachment.Type == Constants.LocationAttachment)
             {
                 await HandleLocation(attachment, senderId);
             }
@@ -131,12 +132,12 @@ namespace FbRestaurantsBot.Services
         private async Task SendBasicResponse(string senderId)
         {
             await _messengerClient.CallSendApi(senderId,
-                "Please send your location in order to get nearby restaurants info");
+                Constants.BasicResponseMessage);
         }
 
         private async Task HandleLocation(Attachment attachment, string senderId)
         {
-            var nearby= await _zomatoClient.CallZomatoApi
+            var nearby = await _zomatoClient.CallZomatoApi
             (attachment.Payload.Coordinates.Latitude,
                 attachment.Payload.Coordinates.Longitude);
 
