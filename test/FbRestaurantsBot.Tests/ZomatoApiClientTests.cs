@@ -23,7 +23,6 @@ namespace FbRestaurantsBot.Tests
         private readonly IOptions<ZomatoSettings> _zomatoOptions;
         private readonly HttpResponseMessage _response;
         private readonly Mock<HttpMessageHandler> _handlerMock;
-        private readonly Mock<ILogger<ZomatoApiClient>> _loggerStub;
         private const string BaseUrl = "https://hehe.com/";
         public ZomatoApiClientTests()
         {
@@ -52,13 +51,12 @@ namespace FbRestaurantsBot.Tests
                 ApiKey = It.IsAny<string>()
             });
             
-            _loggerStub = new Mock<ILogger<ZomatoApiClient>>();
         }
         
         [Fact]
         public async Task CallZomatoApi_ByDefault_ReturnsNearby()
         {
-            var zomatoApiClient = new ZomatoApiClient(_httpClient, _zomatoOptions, _loggerStub.Object);
+            var zomatoApiClient = new ZomatoApiClient(_httpClient, _zomatoOptions);
             var result = await zomatoApiClient.CallZomatoApi(It.IsAny<double>(), It.IsAny<double>());
 
             Assert.IsType<Nearby>(result);
@@ -67,7 +65,7 @@ namespace FbRestaurantsBot.Tests
         [Fact]
         public async Task CallZomatoApi_ByDefault_HttpClientGet()
         {
-            var zomatoApiClient = new ZomatoApiClient(_httpClient, _zomatoOptions, _loggerStub.Object);
+            var zomatoApiClient = new ZomatoApiClient(_httpClient, _zomatoOptions);
             var result = await zomatoApiClient.CallZomatoApi(It.IsAny<double>(), It.IsAny<double>());
 
             _handlerMock.Protected().Verify("SendAsync", Times.Once(),
@@ -80,7 +78,7 @@ namespace FbRestaurantsBot.Tests
         public async Task CallZomatoApi_ByDefault_CallsRightUri()
         {
             var zomatoApiClient = new ZomatoApiClient
-                (_httpClient, _zomatoOptions, _loggerStub.Object);
+                (_httpClient, _zomatoOptions);
             var result = await zomatoApiClient.CallZomatoApi(It.IsAny<double>(), It.IsAny<double>());
             
             var expectedUri = new Uri(BaseUrl + "geocode?lat=0.0000&lon=0.0000");
@@ -96,7 +94,7 @@ namespace FbRestaurantsBot.Tests
         {
             _response.StatusCode = HttpStatusCode.BadRequest;
             
-            var zomatoApiClient = new ZomatoApiClient(_httpClient, _zomatoOptions, _loggerStub.Object);
+            var zomatoApiClient = new ZomatoApiClient(_httpClient, _zomatoOptions);
 
             await Assert.ThrowsAsync<ApiCallException>
                 (() => zomatoApiClient.CallZomatoApi(It.IsAny<double>(), It.IsAny<double>()));
