@@ -37,6 +37,7 @@ namespace FbRestaurantsBot
             });
             
             services.AddScoped<IMessengerService, MessengerService>();
+            services.AddScoped<ILoggerAdapter, LoggerAdapter>();
 
         }
 

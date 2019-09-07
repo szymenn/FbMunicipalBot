@@ -17,18 +17,15 @@ namespace FbRestaurantsBot.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ZomatoSettings _zomatoSettings;
-        private readonly ILogger<ZomatoApiClient> _logger;
 
         public ZomatoApiClient
         (
             HttpClient httpClient,
-            IOptions<ZomatoSettings> zomatoSettings,
-            ILogger<ZomatoApiClient> logger
+            IOptions<ZomatoSettings> zomatoSettings
         )
         {
             _httpClient = httpClient;
             _zomatoSettings = zomatoSettings.Value;
-            _logger = logger;
         }
 
         public async Task<Nearby> CallZomatoApi(double latitude, double longitude)

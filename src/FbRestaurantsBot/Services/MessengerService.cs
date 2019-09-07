@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using FbRestaurantsBot.Configuration;
 using FbRestaurantsBot.Exceptions;
@@ -10,10 +8,8 @@ using FbRestaurantsBot.Helpers;
 using FbRestaurantsBot.Models.Messaging;
 using FbRestaurantsBot.Models.Restaurants;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using VerificationException = System.Security.VerificationException;
 
 namespace FbRestaurantsBot.Services
 {
@@ -22,12 +18,12 @@ namespace FbRestaurantsBot.Services
         private readonly FacebookSettings _fbSettings;
         private readonly IMessengerClient _messengerClient;
         private readonly IZomatoApiClient _zomatoClient;
-        private readonly ILogger<MessengerService> _logger;
+        private readonly ILoggerAdapter _logger;
 
         public MessengerService(IOptions<FacebookSettings> fbSettings, 
             IMessengerClient messengerClient,
             IZomatoApiClient zomatoClient, 
-            ILogger<MessengerService> logger)
+            ILoggerAdapter logger)
         {
             _fbSettings = fbSettings.Value;
             _messengerClient = messengerClient;
