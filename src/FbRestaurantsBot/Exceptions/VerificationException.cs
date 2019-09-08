@@ -28,7 +28,6 @@ namespace FbRestaurantsBot.Exceptions
         {
             StatusCode = StatusCodes.Status403Forbidden;
             ReasonPhrase = Constants.Forbidden;
-
         }
     }
 }
