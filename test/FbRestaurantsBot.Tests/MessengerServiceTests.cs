@@ -61,14 +61,13 @@ namespace FbRestaurantsBot.Tests
         }
 
         [Fact]
-        public async Task Receive_ByDefault_CallsMessengerService()
+        public async Task Receive_WhenAttachmentsMessage_CallsMessengerClient()
         {
             _zomatoApiClientMock.Setup(e => e.CallZomatoApi
                     (It.IsAny<double>(), It.IsAny<double>()))
                 .Returns(Task.FromResult(CreateNearby()));
 
-
-            var httpRequestStub = CreateHttpRequestStub();
+            var httpRequestStub = CreateHttpRequestStub(GetAttachmentsMessageRequestJson());
 
             await _messengerService.Receive(httpRequestStub.Object);
 
@@ -76,12 +75,47 @@ namespace FbRestaurantsBot.Tests
                 (It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
 
-        private static Mock<HttpRequest> CreateHttpRequestStub()
+        [Fact]
+        public async Task Receive_WhenTextMessage_CallsMessengerClient()
+        {
+            var httpRequestStub = CreateHttpRequestStub(GetTextMessageRequestJson());
+
+            await _messengerService.Receive(httpRequestStub.Object);
+
+            _messengerClientMock.Verify
+                (e => e.CallSendApi
+                (It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task Receive_WhenObjectNotValid_ThrowsMessengerException()
+        {
+            var httpRequestStub = CreateHttpRequestStub(GetInvalidObjectRequestJson());
+
+            await Assert.ThrowsAsync<MessengerException>
+                (() => _messengerService.Receive(httpRequestStub.Object));
+        }
+        
+        
+
+        private static Mock<HttpRequest> CreateHttpRequestStub(string json)
         {
             var memoryStream = new MemoryStream();
             var streamWriter = new StreamWriter(memoryStream);
 
-            var json = JsonConvert.SerializeObject(new WebHookRequest
+            streamWriter.Write(json);
+            streamWriter.Flush();
+
+            memoryStream.Position = 0;
+
+            var httpRequestStub = new Mock<HttpRequest>();
+            httpRequestStub.Setup(e => e.Body).Returns(memoryStream);
+            return httpRequestStub;
+        }
+
+        private static string GetAttachmentsMessageRequestJson()
+        {
+            return JsonConvert.SerializeObject(new WebHookRequest
             {
                 Object = "page",
                 Entry = new List<Entry>
@@ -92,7 +126,9 @@ namespace FbRestaurantsBot.Tests
                         {
                             new Messaging
                             {
-                                Message = new Message{Attachments = new List<Attachment>
+                                Message = new Message
+                                {
+                                    Attachments = new List<Attachment>
                                     {
                                         new Attachment
                                         {
@@ -118,15 +154,44 @@ namespace FbRestaurantsBot.Tests
                     }
                 }
             });
-            
-            streamWriter.Write(json);
-            streamWriter.Flush();
+        }
 
-            memoryStream.Position = 0;
+        private static string GetTextMessageRequestJson()
+        {
+            return JsonConvert.SerializeObject(new WebHookRequest
+            {
+                Object = "page",
+                Entry = new List<Entry>
+                {
+                    new Entry
+                    {
+                        Messaging = new List<Messaging>
+                        {
+                            new Messaging
+                            {
+                                Message = new Message
+                                {
+                                    Attachments = null,
+                                    Text = "message"
+                                },
+                                Sender = new Sender()
+                                {
+                                    Id = "some id"
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
-            var httpRequestStub = new Mock<HttpRequest>();
-            httpRequestStub.Setup(e => e.Body).Returns(memoryStream);
-            return httpRequestStub;
+        private static string GetInvalidObjectRequestJson()
+        {
+            return JsonConvert.SerializeObject(new WebHookRequest
+            {
+                Object = It.Is<string>(m => !m.Equals("page")),
+                Entry = It.IsAny<ICollection<Entry>>()
+            });
         }
 
         private static Nearby CreateNearby()
