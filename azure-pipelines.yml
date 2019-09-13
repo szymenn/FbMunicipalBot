@@ -12,6 +12,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
+steps:
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCloudConnection'
@@ -19,7 +20,6 @@ variables:
     scannerMode: 'MSBuild'
     projectKey: 'FbRestaurantsBot'
 
-steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
