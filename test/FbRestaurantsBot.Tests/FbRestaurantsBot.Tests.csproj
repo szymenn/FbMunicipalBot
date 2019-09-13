@@ -14,7 +14,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\FbRestaurantsBot\FbRestaurantsBot.csproj" />
+      <ProjectReference Include="..\..\src\FbRestaurantsBot.Api\FbRestaurantsBot.Api.csproj" />
+      <ProjectReference Include="..\..\src\FbRestaurantsBot.Core\FbRestaurantsBot.Core.csproj" />
+      <ProjectReference Include="..\..\src\FbRestaurantsBot.Infrastructure\FbRestaurantsBot.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

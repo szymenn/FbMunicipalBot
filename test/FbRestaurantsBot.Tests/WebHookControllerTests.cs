@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using FbRestaurantsBot.Controllers;
-using FbRestaurantsBot.Exceptions;
-using FbRestaurantsBot.Services;
+using FbRestaurantsBot.Api.Controllers;
+using FbRestaurantsBot.Core.Exceptions;
+using FbRestaurantsBot.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

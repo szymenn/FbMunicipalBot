@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using FbRestaurantsBot.Configuration;
-using FbRestaurantsBot.Exceptions;
-using FbRestaurantsBot.Models.Messaging;
-using FbRestaurantsBot.Models.Restaurants;
-using FbRestaurantsBot.Services;
+using FbRestaurantsBot.Core.Configuration;
+using FbRestaurantsBot.Core.Dtos.Messaging;
+using FbRestaurantsBot.Core.Dtos.Restaurants;
+using FbRestaurantsBot.Core.Exceptions;
+using FbRestaurantsBot.Core.Interfaces;
+using FbRestaurantsBot.Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -19,7 +20,7 @@ namespace FbRestaurantsBot.Tests
     {
         private readonly Mock<ILoggerAdapter> _loggerMock;
         private readonly Mock<IMessengerClient> _messengerClientMock;
-        private readonly Mock<IZomatoApiClient> _zomatoApiClientMock;
+        private readonly Mock<IZomatoClient> _zomatoClientMock;
         private readonly MessengerService _messengerService;
         private const string Token = "token";
         private const string Mode = "mode";
@@ -28,7 +29,7 @@ namespace FbRestaurantsBot.Tests
         {
             _loggerMock = new Mock<ILoggerAdapter>();
             _messengerClientMock = new Mock<IMessengerClient>();
-            _zomatoApiClientMock = new Mock<IZomatoApiClient>();
+            _zomatoClientMock = new Mock<IZomatoClient>();
             
             var fbOptions = Options.Create(new FacebookSettings
             {
@@ -38,7 +39,7 @@ namespace FbRestaurantsBot.Tests
             });
             
             _messengerService =  new MessengerService
-                (fbOptions, _messengerClientMock.Object, _zomatoApiClientMock.Object, _loggerMock.Object);
+                (fbOptions, _messengerClientMock.Object, _zomatoClientMock.Object, _loggerMock.Object);
 
         }
         
@@ -63,7 +64,7 @@ namespace FbRestaurantsBot.Tests
         [Fact]
         public async Task Receive_WhenAttachmentsMessage_CallsMessengerClient()
         {
-            _zomatoApiClientMock.Setup(e => e.CallZomatoApi
+            _zomatoClientMock.Setup(e => e.CallZomatoApi
                     (It.IsAny<double>(), It.IsAny<double>()))
                 .Returns(Task.FromResult(CreateNearby()));
 
